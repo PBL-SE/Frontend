@@ -27,7 +27,7 @@ const Services = () => {
     setLoading(true);
     try {
       const response = await axios.post<ApiResponse>(
-        'https://server-git-main-siddhant-vishnus-projects.vercel.app/api/papers/fetch-by-query-and-tag',
+        'https://pbl-se-server.vercel.app/api/papers/fetch-by-query-and-tag',
         {
           query: searchQuery,
           difficulty_level: difficulty,

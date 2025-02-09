@@ -7,7 +7,7 @@ import background from '../assets/background.png';
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
-const API_BASE_URL = "https://pbl-se-server-git-main-siddhant-vishnus-projects.vercel.app/api"; // Replace with your backend URL
+const API_BASE_URL = "https://pbl-se-server.vercel.app/api"; // Replace with your backend URL
 
 const Analytics = () => {
   const [orgPapers, setOrgPapers] = useState<any>(null);
