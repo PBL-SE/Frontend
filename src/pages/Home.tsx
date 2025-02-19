@@ -3,6 +3,7 @@ import background from '../assets/background.png';
 import FindPaper from '../assets/FindPaper.png';
 import WritePaper from '../assets/WritePaper.png'
 import { useNavigate } from "react-router-dom";
+import NavBar from '../components/NavBar';
 
 
 
@@ -12,8 +13,11 @@ const Home = () => {
 
 
   return (
+    <div>
+
+      <NavBar/>
     <div
-      className="relative h-full w-full flex  justify-center"
+      className="relative h-full w-full flex  justify-center min-h-[110vh]"
       style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <div className="text-center pt-10">
@@ -60,6 +64,7 @@ const Home = () => {
       
 
 
+    </div>
     </div>
   );
 }

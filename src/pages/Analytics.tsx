@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar, Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement } from "chart.js";
-import background from '../assets/background.png';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement
+} from "chart.js";
+import background from "../assets/background.png";
+import NavBar from "../components/NavBar";
 
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
-const API_BASE_URL = "https://pbl-se-server.vercel.app/api"; // Replace with your backend URL
+const API_BASE_URL = "https://pbl-se-server.vercel.app/api"; 
 
 const Analytics = () => {
   const [orgPapers, setOrgPapers] = useState<any>(null);
@@ -48,78 +59,82 @@ const Analytics = () => {
   }, []);
 
   return (
-    <div
-      className="relative h-full w-full flex justify-center"
-      style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-    >
-      <div className="text-center pt-10">
-        <h1 className="text-5xl mt-20 font-[Paytone_One] text-white">
-          Research Analytics <span className="text-[#6e16e8]">Dashboard</span>
-        </h1>
+    <div>
+      <NavBar /> 
 
-        {loading ? (
-          <div className="flex justify-center items-center h-[80vh]">
-            <div className="text-white text-xl">Loading...</div>
-          </div>
-        ) : (
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Top Organizations by Paper Count */}
-            {orgPapers && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Top Organizations by Paper Count</h2>
-                <Bar data={orgPapers} />
-              </div>
-            )}
+      <div
+        className="relative h-full w-full flex justify-center bg-cover bg-center min-h-[110vh]"
+        style={{ backgroundImage: `url(${background})` }}
+      >
+        <div className="text-center pt-10">
+          <h1 className="text-5xl mt-20 font-[Paytone_One] text-white">
+            Research Analytics <span className="text-[#6e16e8]">Dashboard</span>
+          </h1>
 
-            {/* Average Difficulty by Category */}
-            {difficultyByCategory && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Avg. Difficulty by Category</h2>
-                <Bar data={difficultyByCategory} />
-              </div>
-            )}
+          {loading ? (
+            <div className="flex justify-center items-center h-[80vh]">
+              <div className="text-white text-xl">Loading...</div>
+            </div>
+          ) : (
+            <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Top Organizations by Paper Count */}
+              {orgPapers && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Top Organizations by Paper Count</h2>
+                  <Bar data={orgPapers} />
+                </div>
+              )}
 
-            {/* Top Authors by Average Difficulty */}
-            {topAuthorsDifficulty && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Top Authors by Difficulty</h2>
-                <Bar data={topAuthorsDifficulty} />
-              </div>
-            )}
+              {/* Average Difficulty by Category */}
+              {difficultyByCategory && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Avg. Difficulty by Category</h2>
+                  <Bar data={difficultyByCategory} />
+                </div>
+              )}
 
-            {/* Top Organizations by Citations */}
-            {topOrganizationsByCitations && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Top Organizations by Citations</h2>
-                <Bar data={topOrganizationsByCitations} />
-              </div>
-            )}
+              {/* Top Authors by Average Difficulty */}
+              {topAuthorsDifficulty && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Top Authors by Difficulty</h2>
+                  <Bar data={topAuthorsDifficulty} />
+                </div>
+              )}
 
-            {/* Papers Published Per Year */}
-            {papersPerYear && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Papers Published Per Year</h2>
-                <Line data={papersPerYear} />
-              </div>
-            )}
+              {/* Top Organizations by Citations */}
+              {topOrganizationsByCitations && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Top Organizations by Citations</h2>
+                  <Bar data={topOrganizationsByCitations} />
+                </div>
+              )}
 
-            {/* Top Authors by Citations */}
-            {topAuthorsByCitations && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Top Authors by Citations</h2>
-                <Bar data={topAuthorsByCitations} />
-              </div>
-            )}
+              {/* Papers Published Per Year */}
+              {papersPerYear && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Papers Published Per Year</h2>
+                  <Line data={papersPerYear} />
+                </div>
+              )}
 
-            {/* Most Cited Papers */}
-            {mostCitedPapers && (
-              <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
-                <h2 className="text-xl font-semibold text-white mb-4">Most Cited Papers</h2>
-                <Bar data={mostCitedPapers} />
-              </div>
-            )}
-          </div>
-        )}
+              {/* Top Authors by Citations */}
+              {topAuthorsByCitations && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Top Authors by Citations</h2>
+                  <Bar data={topAuthorsByCitations} />
+                </div>
+              )}
+
+              {/* Most Cited Papers */}
+              {mostCitedPapers && (
+                <div className="bg-[#2c1250] p-6 rounded-lg shadow-lg hover:shadow-xl transition-all">
+                  <h2 className="text-xl font-semibold text-white mb-4">Most Cited Papers</h2>
+                  <Bar data={mostCitedPapers} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

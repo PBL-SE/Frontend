@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import background from '../assets/background.png';
+import NavBar from '../components/NavBar';
 
 interface Paper {
   arxiv_id: string;
@@ -42,6 +43,9 @@ const Services = () => {
   };
 
   return (
+    <div>
+<NavBar/>
+   
     <div
       className="relative w-full flex flex-col items-center text-white min-h-[180vh]"
       style={{
@@ -117,6 +121,7 @@ const Services = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

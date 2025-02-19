@@ -1,7 +1,11 @@
 import background from '../assets/background.png';
+import NavBar from '../components/NavBar';
 
 const About = () => {
   return (
+    <div>
+<NavBar/>
+   
     <div
       className="relative h-full w-full flex justify-center"
       style={{ backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -43,6 +47,7 @@ const About = () => {
           </h3>
         </div>
       </div>
+    </div>
     </div>
   );
 };
