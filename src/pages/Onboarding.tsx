@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPreferences, setOnboarded } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
-
 import { RootState } from "../app/store";
 
 const backendURL = "http://localhost:3000";
@@ -40,14 +39,16 @@ const preferences: PreferenceNode[] = [
         ],
       },
     ],
-  }
+  },
 ];
 
 export default function Onboarding() {
+  const [step, setStep] = useState(1);
+  const [username, setUsername] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const isOnboarded = useSelector((state: RootState) => state.auth.onboarded);
 
   if (isOnboarded) {
@@ -91,10 +92,9 @@ export default function Onboarding() {
         const preferencesArray = Array.from(selected);
         const response = await fetch(`${backendURL}/api/auth/onboarding`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
+          body: JSON.stringify({ username, preferences: preferencesArray }),
         });
 
         if (response.ok) {
@@ -116,17 +116,38 @@ export default function Onboarding() {
   return (
     <div style={{ width: "100vw", height: "100vh", background: "#1a1a1a", color: "white", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div style={{ width: "800px", padding: "30px", background: "#222", textAlign: "center", borderRadius: "12px", overflowY: "auto" }}>
-        <h2 style={{ marginBottom: "15px", fontSize: "24px" }}>Select Your Preferences</h2>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", padding: "15px", maxHeight: "400px", overflowY: "auto" }}>
-          {renderTree(preferences).map((item) => (
-            <div key={item.id} onClick={() => handleClick(item.id)} onDoubleClick={() => handleDoubleClick(item.id)} style={{ padding: "12px", borderRadius: "8px", background: selected.has(item.id) ? "lightgreen" : "#d3d3d3", color: "black", cursor: "pointer", textAlign: "center", minWidth: "140px", fontSize: "14px", border: selected.has(item.id) ? "2px solid white" : "none" }}>
-              {item.id}
+        {step === 1 ? (
+          <>
+            <h2 style={{ marginBottom: "15px", fontSize: "28px" }}>Enter your name</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ width: "300px", padding: "12px", borderRadius: "6px", marginBottom: "20px", fontSize: "16px", textAlign: "center" }}
+            />
+            <button
+              onClick={() => username.trim() ? setStep(2) : alert("Username is required")}
+              style={{ width: "300px", padding: "12px", borderRadius: "6px", background: "#d9eafc", color: "black", cursor: "pointer", fontSize: "16px" }}
+            >
+              Next
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 style={{ marginBottom: "15px", fontSize: "24px" }}>Select Your Preferences</h2>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", padding: "15px", maxHeight: "400px", overflowY: "auto" }}>
+              {renderTree(preferences).map((item) => (
+                <div key={item.id} onClick={() => handleClick(item.id)} onDoubleClick={() => handleDoubleClick(item.id)} style={{ padding: "12px", borderRadius: "8px", background: selected.has(item.id) ? "lightgreen" : "#d3d3d3", color: "black", cursor: "pointer", textAlign: "center", minWidth: "140px", fontSize: "14px", border: selected.has(item.id) ? "2px solid white" : "none" }}>
+                  {item.id}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <button onClick={handleSubmit} style={{ marginTop: "15px", padding: "12px", borderRadius: "6px", background: "#d9eafc", color: "black", cursor: "pointer", fontSize: "16px", border: "none" }}>
-          Submit
-        </button>
+            <button onClick={handleSubmit} style={{ marginTop: "15px", padding: "12px", borderRadius: "6px", background: "#d9eafc", color: "black", cursor: "pointer", fontSize: "16px", border: "none" }}>
+              Submit
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
