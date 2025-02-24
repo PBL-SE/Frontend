@@ -1,67 +1,131 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import logo from "../assets/logo.png";
+import profilePic from "../assets/profile.png";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [active, setActive] = useState<string>('home');
+  const [active, setActive] = useState<string>("home");
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
-  // Update active state based on the current URL path
   useEffect(() => {
     const currentPath = location.pathname;
-    if (currentPath === '/') {
-      setActive('home');
-    } else if (currentPath === '/services') {
-      setActive('services');
-    } else if (currentPath === '/analytics') {
-      setActive('analytics');
-    } else if (currentPath === '/about') {
-      setActive('about');
-    }
-  }, [location.pathname]); // This hook will re-run whenever the location changes
+    if (currentPath === "/home") setActive("home");
+    else if (currentPath === "/services") setActive("services");
+    else if (currentPath === "/analytics") setActive("analytics");
+    else if (currentPath === "/about") setActive("about");
+  }, [location.pathname]);
 
   const handleClick = (section: string) => {
     setActive(section);
     navigate(`/${section}`);
   };
 
-  return (
-    <div className="bg-[#270C4A] w-full h-[68px] flex items-center px-6 text-white">
-      <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        <img src={logo} className="logo h-[201hug] w-[40hug]" alt="Logo" />
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("token");
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      navigate("/");
+    }
+  };
 
-        <div className="flex items-center justify-between gap-20">
-          <ul className="flex items-center gap-15">
-            <h3
-              className={`cursor-pointer text-lg transition-transform duration-300 ease-in-out transform hover:scale-110 ${active === 'home' ? 'text-[#852FFF]' : ''}`}
-              onClick={() => handleClick('home')}
-            >
-              Home
-            </h3>
-            <h3
-              className={`cursor-pointer text-lg transition-transform duration-300 ease-in-out transform hover:scale-110 ${active === 'services' ? 'text-[#852FFF]' : ''}`}
-              onClick={() => handleClick('services')}
-            >
-              Services
-            </h3>
-            <h3
-              className={`cursor-pointer text-lg transition-transform duration-300 ease-in-out transform hover:scale-110 ${active === 'analytics' ? 'text-[#852FFF]' : ''}`}
-              onClick={() => handleClick('analytics')}
-            >
-              Analytics
-            </h3>
-            <h3
-              className={`cursor-pointer text-lg transition-transform duration-300 ease-in-out transform hover:scale-110 ${active === 'about' ? 'text-[#852FFF]' : ''}`}
-              onClick={() => handleClick('about')}
-            >
-              About
-            </h3>
+  return (
+    <div
+      style={{
+        backgroundColor: "#270C4A",
+        width: "100%",
+        height: "70px",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 40px",
+        color: "white",
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1200px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0 auto",
+        }}
+      >
+        <img
+          src={logo}
+          alt="Logo"
+          style={{ height: "40px", cursor: "pointer" }}
+          onClick={() => navigate("/home")}
+        />
+
+        <div style={{ display: "flex", alignItems: "center", gap: "30px", position: "relative" }}>
+          <ul style={{ display: "flex", gap: "20px", fontSize: "18px", listStyle: "none" }}>
+            {["home", "services", "analytics", "about"].map((item) => (
+              <h3
+                key={item}
+                style={{
+                  cursor: "pointer",
+                  transition: "color 0.3s ease",
+                  fontWeight: active === item ? "600" : "400",
+                  color: active === item ? "#852FFF" : "white",
+                }}
+                onClick={() => handleClick(item)}
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </h3>
+            ))}
           </ul>
-          
-          <button className="cursor-pointer px-4 py-2 flex items-center justify-center ml-10 rounded h-[35px] w-[95px] text-white bg-[#852FFF] transition-transform duration-300 ease-in-out transform hover:scale-110">
-            Sign Up
-          </button>
+
+          <div style={{ position: "relative" }}>
+            <img
+              src={profilePic}
+              alt="Profile"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                cursor: "pointer",
+                border: "2px solid white",
+              }}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            />
+
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "50px",
+                  backgroundColor: "white",
+                  color: "black",
+                  borderRadius: "8px",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  width: "150px",
+                  zIndex: 10,
+                  textAlign: "center",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "10px",
+                    cursor: "pointer",
+                    borderBottom: "1px solid #ddd",
+                  }}
+                  onClick={() => navigate("/profile")}
+                >
+                  Profile
+                </div>
+                <div
+                  style={{ padding: "10px", cursor: "pointer" }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
