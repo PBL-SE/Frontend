@@ -31,7 +31,8 @@ export const checkSession = async () => {
   export const checkOnboarding = async () => {
     try {
       console.log("🔄 Sending request to /onboarding-status...");
-      const response = await fetch("http://localhost:3000/api/auth/onboarding-status", {
+      const backendURL = import.meta.env.VITE_BACKEND_URL 
+      const response = await fetch(`${backendURL}/api/auth/onboarding-status`, {
         method: "GET",
         credentials: "include",
       });
