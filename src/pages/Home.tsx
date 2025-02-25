@@ -4,7 +4,7 @@ import FindPaper from "../assets/FindPaper.png";
 import WritePaper from "../assets/WritePaper.png";
 import NavBar from "../components/NavBar";
 
-const backendURL = "https://pbl-se-server.vercel.app/api";
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 const Home = () => {
   const [user, ] = useState<{ name: string } | null>(null);

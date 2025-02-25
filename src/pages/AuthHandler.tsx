@@ -1,4 +1,4 @@
-const backendURL = "https://pbl-se-server.vercel.app/api";
+const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
 
 const AuthHandler = () => {
 
