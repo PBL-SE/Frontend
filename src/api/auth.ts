@@ -1,8 +1,11 @@
 
+
+
 export const checkSession = async () => {
     try {
       console.log("🔄 Sending request to /me...");
-      const response = await fetch("http://localhost:3000/api/auth/me", {
+      const backendURL = import.meta.env.VITE_BACKEND_URL 
+      const response = await fetch(`${backendURL}/api/auth/me`, {
         method: "GET",
         credentials: "include",
       });
