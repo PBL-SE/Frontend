@@ -4,7 +4,7 @@ import { setPreferences, setOnboarded } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 
-const backendURL = "http://localhost:3000";
+const backendURL = "https://pbl-se-server.vercel.app/api";
 
 type PreferenceNode = {
   id: string;
@@ -81,7 +81,7 @@ export default function Onboarding() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`${backendURL}/api/auth/me`, {
+      const res = await fetch(`${backendURL}/auth/me`, {
         method: "GET",
         credentials: "include",
       });

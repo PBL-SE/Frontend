@@ -4,7 +4,7 @@ import FindPaper from "../assets/FindPaper.png";
 import WritePaper from "../assets/WritePaper.png";
 import NavBar from "../components/NavBar";
 
-const backendURL = "http://localhost:3000";
+const backendURL = "https://pbl-se-server.vercel.app/api";
 
 const Home = () => {
   const [user, ] = useState<{ name: string } | null>(null);
@@ -37,7 +37,7 @@ const Home = () => {
 
               <button
                 className="mt-10 px-6 py-3 text-lg font-semibold text-white bg-[#852FFF] rounded-md transition-transform duration-300 transform hover:scale-105"
-                onClick={() => (window.location.href = `${backendURL}/api/auth/google`)}
+                onClick={() => (window.location.href = `${backendURL}/auth/google`)}
               >
                 Get Started
               </button>

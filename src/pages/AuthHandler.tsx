@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
-
-const backendURL = "http://localhost:3000";
+const backendURL = "https://pbl-se-server.vercel.app/api";
 
 const AuthHandler = () => {
 
   const handleLogin = (provider: string) => {
-    window.location.href = `${backendURL}/api/auth/${provider}`;
+    window.location.href = `${backendURL}/auth/${provider}`;
   };
 
   return (
