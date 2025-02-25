@@ -3,7 +3,11 @@ const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
 const AuthHandler = () => {
 
   const handleLogin = (provider: string) => {
-    window.location.href = `${backendURL}/auth/${provider}`;
+    console.log(`${backendURL}/auth/${provider}`);
+    setTimeout(() => {
+      window.location.href = `${backendURL}/auth/${provider}`;
+    }, 10000);
+    console.log('location 2');
   };
 
   return (
