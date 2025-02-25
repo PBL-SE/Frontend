@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 const backendURL = "http://localhost:3000";
 
 const AuthHandler = () => {
-  const navigate = useNavigate();
 
   const handleLogin = (provider: string) => {
     window.location.href = `${backendURL}/api/auth/${provider}`;

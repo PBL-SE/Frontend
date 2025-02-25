@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import background from "../assets/background.png";
 import FindPaper from "../assets/FindPaper.png";
 import WritePaper from "../assets/WritePaper.png";
@@ -8,8 +7,7 @@ import NavBar from "../components/NavBar";
 const backendURL = "http://localhost:3000";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, ] = useState<{ name: string } | null>(null);
 
 
   

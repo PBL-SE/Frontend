@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 import authReducer from "../features/authSlice"; // Ensure this path is correct and the file exists
 import persistConfig from "../utils/persistConfig";
 
