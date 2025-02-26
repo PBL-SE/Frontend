@@ -22,13 +22,26 @@ const NavBar = () => {
     navigate(`/${section}`);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("token");
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      navigate("/");
+      try {
+        // Call backend logout route to destroy session
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`, {
+          method: "POST",
+          credentials: "include", // Ensures cookies are sent with the request
+        });
+  
+        // Clear local storage and cookies
+        localStorage.removeItem("token");
+        document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  
+        // Redirect to login page
+        navigate("/");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
     }
-  };
+  };  
 
   return (
     <div
