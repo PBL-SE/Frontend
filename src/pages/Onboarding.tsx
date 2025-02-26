@@ -4,7 +4,7 @@ import { setPreferences, setOnboarded } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
+const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 type PreferenceNode = {
   id: string;
