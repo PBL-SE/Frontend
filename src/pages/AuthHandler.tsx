@@ -1,11 +1,34 @@
-const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { checkSession } from "../api/auth";
+
+const backendURL = import.meta.env.VITE_BACKEND_URL + "/api";
 
 const AuthHandler = () => {
+  const navigate = useNavigate();
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    const verifySession = async () => {
+      try {
+        const session = await checkSession();
+        if (session.existing) {
+          navigate("/home", { replace: true }); // Redirect if authenticated
+          return;
+        }
+      } catch (error) {
+        console.error("Error verifying session:", error);
+      }
+      setCheckingSession(false); // Show login if not authenticated
+    };
+
+    verifySession();
+  }, [navigate]);
+
+  if (checkingSession) return <div>Loading...</div>; // Prevent flicker
 
   const handleLogin = (provider: string) => {
-    console.log(`${backendURL}/auth/${provider}`);
-    window.location.href = `${backendURL}/auth/google`;
-    console.log('location 2');
+    window.location.href = `${backendURL}/auth/${provider}`;
   };
 
   return (

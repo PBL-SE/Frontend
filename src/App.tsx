@@ -12,22 +12,22 @@ import OnboardingLayout from "./components/OnboardingLayout";
 const App = () => {
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<AuthHandler />} />
-        {/* ✅ Onboarding Protected Route */}
-        <Route element={<OnboardingLayout />}>
-          <Route path="/onboarding" element={<Onboarding />} />
-        </Route>
-        
-        {/* Protected Routes (Require Authentication) */}
-        <Route element={<ProtectedLayout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/about" element={<About />} />
-        </Route>
-      </Routes>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<AuthHandler />} />
+          {/* ✅ Onboarding Protected Route */}
+          <Route element={<OnboardingLayout />}>
+            <Route path="/onboarding" element={<Onboarding />} />
+          </Route>
+
+          {/* Protected Routes (Require Authentication) */}
+          <Route element={<ProtectedLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/about" element={<About />} />
+          </Route>
+        </Routes>
     </Router>
   );
 };
