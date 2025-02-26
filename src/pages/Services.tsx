@@ -27,8 +27,9 @@ const Services = () => {
   const fetchPapers = async () => {
     setLoading(true);
     try {
+      const backendURL = import.meta.env.VITE_BACKEND_URL;
       const response = await axios.post<ApiResponse>(
-        'https://pbl-se-server.vercel.app/api/papers/fetch-by-query-and-tag',
+        `${backendURL}/api/papers/fetch-by-query-and-tag`,
         {
           query: searchQuery,
           difficulty_level: difficulty,

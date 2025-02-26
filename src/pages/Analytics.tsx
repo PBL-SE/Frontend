@@ -18,7 +18,7 @@ import NavBar from "../components/NavBar";
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
-const API_BASE_URL = "https://pbl-se-server.vercel.app/api"; 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL + '/api';; 
 
 const Analytics = () => {
   const [orgPapers, setOrgPapers] = useState<any>(null);
