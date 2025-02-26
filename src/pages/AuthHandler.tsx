@@ -4,7 +4,7 @@ const AuthHandler = () => {
 
   const handleLogin = (provider: string) => {
     console.log(`${backendURL}/auth/${provider}`);
-    window.location.href = "http://localhost:3000/api/auth/google";
+    window.location.href = `${backendURL}/auth/google`;
     console.log('location 2');
   };
 
