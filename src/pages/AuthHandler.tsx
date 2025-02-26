@@ -4,9 +4,7 @@ const AuthHandler = () => {
 
   const handleLogin = (provider: string) => {
     console.log(`${backendURL}/auth/${provider}`);
-    setTimeout(() => {
-      window.location.href = `${backendURL}/auth/${provider}`;
-    }, 10000);
+    window.location.href = `${backendURL}/auth/${provider}`;
     console.log('location 2');
   };
 
