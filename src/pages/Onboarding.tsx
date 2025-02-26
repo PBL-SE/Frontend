@@ -4,7 +4,7 @@ import { setPreferences, setOnboarded } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL;
+const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
 
 type PreferenceNode = {
   id: string;
@@ -90,7 +90,7 @@ export default function Onboarding() {
 
       if (data.existing) {
         const preferencesArray = Array.from(selected);
-        const response = await fetch(`${backendURL}/api/auth/onboarding`, {
+        const response = await fetch(`${backendURL}/auth/onboarding`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
