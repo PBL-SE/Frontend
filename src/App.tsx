@@ -15,10 +15,11 @@ const App = () => {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<AuthHandler />} />
+          <Route path="/onboarding" element={<Onboarding />} />
           {/* ✅ Onboarding Protected Route */}
-          <Route element={<OnboardingLayout />}>
-            <Route path="/onboarding" element={<Onboarding />} />
-          </Route>
+          {/* <Route element={<OnboardingLayout />}>
+           
+          </Route> */}
 
           {/* Protected Routes (Require Authentication) */}
           <Route element={<ProtectedLayout />}>

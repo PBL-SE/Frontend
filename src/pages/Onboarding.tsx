@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPreferences, setOnboarded } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../app/store";
+import background from "../assets/background.png";
+import "./Onboarding.css";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
 
@@ -46,6 +48,7 @@ export default function Onboarding() {
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [searchTerm, setSearchTerm] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,13 +60,13 @@ export default function Onboarding() {
   }
 
   const handleClick = (id: string) => {
-    setSelected((prev) => new Set(prev.add(id)));
-  };
-
-  const handleDoubleClick = (id: string) => {
     setSelected((prev) => {
       const newSelected = new Set(prev);
-      newSelected.delete(id);
+      if (newSelected.has(id)) {
+        newSelected.delete(id);
+      } else {
+        newSelected.add(id);
+      }
       return newSelected;
     });
   };
@@ -78,6 +81,11 @@ export default function Onboarding() {
     });
     return result;
   };
+
+  const filteredPreferences = searchTerm
+    ? renderTree(preferences).filter(item => 
+        item.id.toLowerCase().includes(searchTerm.toLowerCase()))
+    : renderTree(preferences);
 
   const handleSubmit = async () => {
     try {
@@ -114,41 +122,55 @@ export default function Onboarding() {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh", background: "#1a1a1a", color: "white", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <div style={{ width: "800px", padding: "30px", background: "#222", textAlign: "center", borderRadius: "12px", overflowY: "auto" }}>
-        {step === 1 ? (
-          <>
-            <h2 style={{ marginBottom: "15px", fontSize: "28px" }}>Enter your name</h2>
+    <div className="onboarding-container">
+      {step === 1 ? (
+        <div className="onboarding-card">
+          <h2 className="onboarding-title">Enter your name</h2>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="onboarding-input"
+          />
+          <button
+            onClick={() => username.trim() ? setStep(2) : alert("Username is required")}
+            className="onboarding-button"
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <div className="onboarding-card preferences-card">
+          <h2 className="onboarding-title">Pick tags that are relevant to you</h2>
+          
+          <div className="search-container">
             <input
               type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              style={{ width: "300px", padding: "12px", borderRadius: "6px", marginBottom: "20px", fontSize: "16px", textAlign: "center" }}
+              placeholder="Search deep learning etc"
+              className="search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button
-              onClick={() => username.trim() ? setStep(2) : alert("Username is required")}
-              style={{ width: "300px", padding: "12px", borderRadius: "6px", background: "#d9eafc", color: "black", cursor: "pointer", fontSize: "16px" }}
-            >
-              Next
-            </button>
-          </>
-        ) : (
-          <>
-            <h2 style={{ marginBottom: "15px", fontSize: "24px" }}>Select Your Preferences</h2>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", padding: "15px", maxHeight: "400px", overflowY: "auto" }}>
-              {renderTree(preferences).map((item) => (
-                <div key={item.id} onClick={() => handleClick(item.id)} onDoubleClick={() => handleDoubleClick(item.id)} style={{ padding: "12px", borderRadius: "8px", background: selected.has(item.id) ? "lightgreen" : "#d3d3d3", color: "black", cursor: "pointer", textAlign: "center", minWidth: "140px", fontSize: "14px", border: selected.has(item.id) ? "2px solid white" : "none" }}>
-                  {item.id}
-                </div>
-              ))}
-            </div>
-            <button onClick={handleSubmit} style={{ marginTop: "15px", padding: "12px", borderRadius: "6px", background: "#d9eafc", color: "black", cursor: "pointer", fontSize: "16px", border: "none" }}>
-              Submit
-            </button>
-          </>
-        )}
-      </div>
+          </div>
+          
+          <div className="preferences-container">
+            {filteredPreferences.map((item) => (
+              <button 
+                key={item.id} 
+                onClick={() => handleClick(item.id)} 
+                className={`preference-tag ${selected.has(item.id) ? 'selected' : ''}`}
+              >
+                {item.id}
+              </button>
+            ))}
+          </div>
+          
+          <button onClick={handleSubmit} className="onboarding-button submit-button">
+            Submit
+          </button>
+        </div>
+      )}
     </div>
   );
 }

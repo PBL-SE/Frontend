@@ -65,6 +65,7 @@ const NavBar = () => {
           alignItems: "center",
           margin: "0 auto",
         }}
+       
       >
         <img
           src={logo}
