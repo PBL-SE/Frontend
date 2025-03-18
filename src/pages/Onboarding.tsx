@@ -6,7 +6,7 @@ import { RootState } from "../app/store";
 import background from "../assets/background.png";
 import "./Onboarding.css";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL + '/api';
+const backendURL = import.meta.env.VITE_BACKEND_URL ;
 
 type PreferenceNode = {
   id: string;
@@ -87,39 +87,139 @@ export default function Onboarding() {
         item.id.toLowerCase().includes(searchTerm.toLowerCase()))
     : renderTree(preferences);
 
-  const handleSubmit = async () => {
-    try {
-      const res = await fetch(`${backendURL}/auth/me`, {
-        method: "GET",
+    // const handleSubmit = async () => {
+    //   try {
+    //     console.log("🟡 Fetching user session data...");
+    
+    //     const res = await fetch(`${backendURL}/auth/me`, {
+    //       method: "GET",
+    //       credentials: "include",
+    //     });
+    
+    //     const data = await res.json();
+    //     console.log("📌 Received response from /auth/me:", data);
+    
+    //     if (data.existing) {
+    //       const preferencesArray = Array.from(selected);
+    //       console.log("📌 Selected preferences:", preferencesArray);
+    
+    //       console.log("🟡 Fetching session data...");
+    //       const sessionRes = await fetch(`${backendURL}/auth/session`, {
+    //         method: "GET",
+    //         credentials: "include",
+    //       });
+    
+    //       const sessionData = await sessionRes.json();
+    //       console.log("📌 Received session data:", sessionData);
+    
+    //       if (!sessionData || !sessionData.user_id) {
+    //         console.error("❌ Session expired. Please log in again.");
+    //         alert("Session expired. Please log in again.");
+    //         return;
+    //       }
+    
+    //       const { provider, provider_id } = sessionData;
+    
+    //       console.log("🟡 Sending onboarding request...");
+    //       const response = await fetch(`${backendURL}/api/auth/onboarding`, {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         credentials: "include",
+    //         body: JSON.stringify({ username, preferences: preferencesArray, provider, provider_id }),
+    //       });
+    
+    //       console.log("📌 Received response from /auth/onboarding:", response);
+    
+    //       if (response.ok) {
+    //         console.log("✅ Onboarding successful.");
+    //         dispatch(setPreferences(preferencesArray));
+    //         dispatch(setOnboarded(true));
+    //         navigate("/home");
+    //       } else {
+    //         console.error("❌ Failed to update onboarding status.");
+    //         alert("Failed to update onboarding status. Please try again.");
+    //       }
+    //     } else {
+    //       console.error("❌ Authentication failed.");
+    //       alert("Authentication failed. Please try logging in again.");
+    //     }
+    //   } catch (error) {
+    //     console.error("❌ Error during onboarding:", error);
+    //     alert("An error occurred. Please try again.");
+    //   }
+    // };
+
+
+    const handleSubmit = async () => {
+      try {
+        console.log("🟡 Fetching user session data...");
+    
+        const res = await fetch(`${backendURL}/api/auth/me`, {
+          method: "GET",
+          credentials: "include",
+        });
+    
+        const data = await res.json();
+        console.log("📌 Received response from /api/auth/me:", data);
+    
+        if (data.existing) {
+          const preferencesArray = Array.from(selected);
+          console.log("📌 Selected preferences:", preferencesArray);
+    
+        //   console.log("🟡 Sending onboarding request...");
+        //   const response = await fetch(`${backendURL}/api/auth/onboarding`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include",
+        //     body: JSON.stringify({ username, preferences: preferencesArray }),
+        //   });
+    
+        //   console.log("📌 Received response from /api/auth/onboarding:", response);
+    
+        //   if (response.ok) {
+        //     console.log("✅ Onboarding successful.");
+        //     dispatch(setPreferences(preferencesArray));
+        //     dispatch(setOnboarded(true));
+        //     navigate("/home");
+        //   } else {
+        //     const errorMessage = await response.text();
+        //     console.error("❌ Failed to update onboarding status:", errorMessage);
+        //     alert("Failed to update onboarding status. Please try again.");
+        //   }
+        // } else {
+        //   console.error("❌ Authentication failed.");
+        //   alert("Authentication failed. Please try logging in again.");
+        // }
+        console.log("🟡 Sending onboarding request...");
+      const response = await fetch(`${backendURL}/api/auth/onboarding`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
+        body: JSON.stringify({ username, preferences: preferencesArray }),
       });
 
-      const data = await res.json();
+      console.log("📌 Received response from /api/auth/onboarding:", response);
 
-      if (data.existing) {
-        const preferencesArray = Array.from(selected);
-        const response = await fetch(`${backendURL}/auth/onboarding`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ username, preferences: preferencesArray }),
-        });
-
-        if (response.ok) {
-          dispatch(setPreferences(preferencesArray));
-          dispatch(setOnboarded(true));
-          navigate("/home");
-        } else {
-          alert("Failed to update onboarding status. Please try again.");
-        }
+      if (response.ok) {
+        console.log("✅ Inserted to Mongo successfully.");
+        alert("Inserted to Mongo successfully!");
       } else {
-        alert("Authentication failed. Please try logging in again.");
+        const errorMessage = await response.text();
+        console.error("❌ Insertion failure:", errorMessage);
+        alert("Insertion failure! Please try again.");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+    } else {
+      console.error("❌ Authentication failed.");
+      alert("Authentication failed. Please try logging in again.");
     }
-  };
+      } catch (error) {
+        console.error("❌ Error during onboarding:", error);
+        alert("An error occurred. Please try again.");
+      }
+    };
+    
+    
+    
 
   return (
     <div className="onboarding-container">
