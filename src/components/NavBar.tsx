@@ -3,6 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import profilePic from "../assets/profile.png";
 
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +29,7 @@ const NavBar = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       try {
         // Call backend logout route to destroy session
-        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/logout`, {
+        await fetch(`${BACKEND_URL}/api/auth/logout`, {
           method: "POST",
           credentials: "include", // Ensures cookies are sent with the request
         });
@@ -36,7 +39,7 @@ const NavBar = () => {
         document.cookie = "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   
         // Redirect to login page
-        navigate("/");
+        window.location.replace("/");
       } catch (error) {
         console.error("Logout failed:", error);
       }
