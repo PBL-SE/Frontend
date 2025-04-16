@@ -8,7 +8,10 @@ import Analytics from './pages/Analytics';
 import Services from './pages/Services';
 import Onboarding from './pages/Onboarding';
 import AuthHandler from './pages/AuthHandler';
-
+import Subscription from './pages/Subscription';
+import Profile from './pages/Profile';
+import History from './pages/History';
+import Chatbot from './pages/Chatbot';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -79,6 +82,10 @@ const App = () => {
           <Route path="/services" element={<Services user={user!} />} />
           <Route path="/analytics" element={<Analytics user={user!} />} />
           <Route path="/about" element={<About user={user!} />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/profile" element={<Profile user={user!} />} />
+          <Route path="/history" element={<History user={user!} />} />
+          <Route path="/chatbot" element={<Chatbot user={user!} />} />
         </Route>
 
         {/* Catch-All Route */}

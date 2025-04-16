@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import logo from "../assets/logo.png";         // ✅ Import logo
+
 import animation from "../assets/Animation.json";  // ✅ Import animation
+
+
 
 const LandingPage = () => {
   const navigate = useNavigate();
